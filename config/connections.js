@@ -58,10 +58,11 @@ module.exports.connections = {
   ***************************************************************************/
   MongodbServer: {
     adapter: 'sails-mongo',
-    host: 'localhost',
-    port: 27017,
-    // user: 'vpadmin', //optional
-    // password: 'raviyamuwek', //optional
+    host: 'ds131890.mlab.com',
+    // port: 27017,
+    port: 31890,
+    user: 'vmag', //optional
+    password: '123456', //optional
     database: 'vmag_db' //optional
   },
 
