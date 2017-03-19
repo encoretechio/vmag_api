@@ -18,7 +18,7 @@ module.exports = {
         username: {
             type: 'string',
             size: 128,
-            required: true,
+            required: false,
             unique: true
         },
 
@@ -30,13 +30,13 @@ module.exports = {
         firstName: {
             type: 'string',
       		  size: 128,
-            required: true
+            required: false
         },
 
         lastName: {
             type: 'string',
       		  size: 128,
-            required: true
+            required: false
         },
 
         //address - can we have complex attributes?
