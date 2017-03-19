@@ -7,48 +7,50 @@
 
 module.exports = {
 
-  	attributes: {
-  		id: {
-            type: 'integer',
-            autoIncrement: true,
-            primaryKey: true,
-            // required: true
-        },
+  attributes: {
+    id: {
+      type: 'objectid',
+      autoIncrement: true,
+      primaryKey: true,
+      // required: true
+    },
 
-        
-        title: {
-            type: 'string',
-      		size: 128,
-            required: true
-        },
 
-        link: {
-            type: 'string',
-      		size: 256,
-        },
+    title: {
+      type: 'string',
+      size: 128,
+      required: true
+    },
 
-        description: {
-            type: 'string',
-            // size: 256,
-        },
+    src: {
+      type: 'string',
+      size: 256,
+    },
 
-        length: {
-            type: 'string',
-            size: 128
-        },
+    thumbnail: {
+      type: 'string'
+    },
 
-        // many to many relationship with playlist
-        playlists: {
-        	collection: 'playlist',
-        	via: 'video',
-        	through: 'playlisthasvideo'
-        },
+    description: {
+      type: 'string',
+      // size: 256,
+    },
 
-        // one to many relationship with comment
-        comments: {
-        	collection: 'comment',
-        	via: 'video'
-        }
-  	}
+    length: {
+      type: 'string',
+      size: 128
+    },
+
+    // many to many relationship with playlist
+    playlist: {
+      model: 'playlist'
+    },
+
+    // one to many relationship with comment
+    comments: {
+      collection: 'comment',
+      via: 'video'
+    }
+  }
 };
 

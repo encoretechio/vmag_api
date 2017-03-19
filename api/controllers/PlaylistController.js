@@ -22,7 +22,7 @@ module.exports = {
 
    //getPlaylists - Send all playlists
    getPlaylists: function(request, response){
-     Playlist.find().populate('roles_with_access').populate('videos').populate('users_who_can_answer_comments').exec(function(error, playlists){
+     Playlist.find().populate('videos').exec(function(error, playlists){
        if (error) {
          // handle error here- e.g. `res.serverError(err);`
          return;
@@ -34,7 +34,7 @@ module.exports = {
 
    // get Playlist details
    getPlaylist: function(request, response){
-     Playlist.findOne(request.params.playlist_id).populate('roles_with_access').populate('videos').populate('users_who_can_answer_comments').exec(function(error, playlist) {
+     Playlist.findOne(request.params.playlist_id).populate('videos').exec(function(error, playlist) {
        if(error){
          // handle error
          return response.negotiate(error);
@@ -64,7 +64,10 @@ module.exports = {
   				// handle error
   				return response.negotiate(error);
   			}
-
+  			console.log("Body:")
+        console.log(request.params.playlist_id)
+        console.log(playlist)
+        console.log(request.body)
   			// Queue up a records to be inserted into the join table
   			playlist.videos.add(request.body.videos);
 

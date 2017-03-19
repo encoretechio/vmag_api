@@ -7,47 +7,36 @@
 
 module.exports = {
 
-  	attributes: {
-  		id: {
-            type: 'integer',
-            autoIncrement: true,
-            primaryKey: true,
-            // required: true
-        },
+  attributes: {
+    id: {
+      type: 'objectid',
+      autoIncrement: true,
+      primaryKey: true,
+      // required: true
+    },
 
-        
-        name: {
-            type: 'string',
-      		size: 128,
-            required: true
-        },
+    title: {
+      type: 'string',
+      required: true
+    },
 
-        description: {
-            type: 'string',
-            // size: 256,
-        },
+    description: {
+      type: 'string'
+    },
 
-        // many to many relationship with role
-        roles_with_access: {
-        	collection: 'role',
-        	via: 'playlist',
-        	through: 'rolehasplaylist'
-        },
+    issue:{
+      model:'issue'
+    },
 
-        // many to many relationship with video
-        videos: {
-        	collection: 'video',
-        	via: 'playlist',
-        	through: 'playlisthasvideo'
-        },
+    thumbnail:{
+      type:'string'
+    },
 
-        // association with user
-        // user list to keep users who can answer for the comments
-        users_who_can_answer_comments: {
-        	collection: 'user',
-        	via: 'playlist',
-        	through: 'usercananswercomments'
-        }
-  	}
+    // one to many relationship with video
+    videos: {
+      collection: 'video',
+      via: 'playlist'
+    }
+  }
 };
 

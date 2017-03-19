@@ -47,6 +47,9 @@ module.exports.routes = {
   'post /signup' : 'AuthController.signup',
   'get /activate/:token' : 'AuthController.activate',
 
+  //Issue
+  'POST /issue': 'IssueController.createIssue',
+
   // user routes
   'GET /user/:user_id': 'UserController.getUser',
   'GET /user': 'UserController.getUsers',
