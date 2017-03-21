@@ -18,5 +18,27 @@ module.exports = {
       sails.log('Issue\'s id is:', issue.id);
       return response.json(issue);
     });
+  },
+  getFinalIssue: function (request, response) {
+    Issue.find()
+      .populate('playlists')
+      .populate('cover_video')
+      .then(function (issues) {
+        const finalIssue = issues[0];
+        const finalIssueOut = Object.assign({},finalIssue);
+        const playlists_new = [];
+        const promises = finalIssue.playlists.map((playlist) =>
+          Playlist.findOne(playlist.id).populate("videos").then((playlist) => {
+            playlists_new.push(playlist)
+          }));
+        return Promise.all(promises).then(() => {
+          console.log(playlists_new);
+          finalIssueOut.playlists = playlists_new;
+          return finalIssueOut;
+        });
+      })
+      .then(function (f) {
+        return response.json(f);
+      });
   }
 }

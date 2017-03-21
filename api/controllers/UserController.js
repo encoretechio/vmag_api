@@ -80,7 +80,7 @@ module.exports = {
   	getuserProfile: function(request, response){
       var userId = request.token;
       var requested_profile_id = request.params.user_id;
-      console.log("1");
+      console.log("Returning User Profile All");
       UserService.getSingleUserDetailed({
         user_id : userId,
         profile_id : requested_profile_id
@@ -131,7 +131,7 @@ module.exports = {
                 // adding hashed newpassword to the data object
                 user.password = hash;
 
-                // update user 
+                // update user
                 user.save(function(error) {
                   if (error) {
                       return response.negotiate(error);

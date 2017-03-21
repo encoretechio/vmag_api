@@ -49,6 +49,7 @@ module.exports.routes = {
 
   //Issue
   'POST /issue': 'IssueController.createIssue',
+  'GET /finalIssue': 'IssueController.getFinalIssue',
 
   // user routes
   'GET /user/:user_id': 'UserController.getUser',
