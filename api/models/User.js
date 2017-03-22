@@ -73,6 +73,10 @@ module.exports = {
       type: 'json'
     },
 
+    company:{
+      model:'company'
+    },
+
     // this can be used to associate a one to many relation with a contacts table
     // contacts: {
     //   collection: 'Contact',

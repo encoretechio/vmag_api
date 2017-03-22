@@ -14,7 +14,6 @@ module.exports = {
       primaryKey: true
     },
 
-
     title: {
       type: 'string',
       size: 128,

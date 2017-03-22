@@ -51,6 +51,10 @@ module.exports.routes = {
   'POST /issue': 'IssueController.createIssue',
   'GET /finalIssue': 'IssueController.getFinalIssue',
 
+  //Company
+  'POST /company':'CompanyController.create',
+  'GET /company':'CompanyController.getUsersCompany',
+
   // user routes
   'GET /user/:user_id': 'UserController.getUser',
   'GET /user': 'UserController.getUsers',
