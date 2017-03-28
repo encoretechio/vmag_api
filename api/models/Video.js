@@ -54,12 +54,10 @@ module.exports = {
 
     watchedUsers: {
       collection: 'user',
-      via: 'watchedVideos'
     },
 
     favoriteUsers: {
       collection: 'user',
-      via: 'favoriteVideos'
     }
   }
 };

@@ -6,7 +6,7 @@
  */
 var bcrypt = require('bcrypt');
 var helper = require('../../lib/helper.js');
-const ObjectId = require('mongodb').ObjectID;
+const ObjectId = require('sails-mongo/node_modules/mongodb').ObjectID;
 // const ERRORS = require('../responses/custom_errors')
 
 module.exports = {
@@ -63,17 +63,11 @@ module.exports = {
     });
   },
 
-  // getCurrentUser - send limited details of the logged in user
   getCurrentUser: function (request, response) {
-    // user_id is assigned to request.token from the 'authToken' policy
-    console.log(request.token);
     var userId = request.token
-    UserService.getSingleUser({
-      user_id: userId
-    }, function getSingleUserCallback(error, user) {
-      if (!error) {
-        response.json(user);
-      }
+    User.findOne(userId).exec(function (error, user) {
+      if (error) return error;
+      response.json(user);
     });
   },
 
@@ -216,25 +210,29 @@ module.exports = {
       const newList = request.body;
       const oldList = user.watchedVideos ? user.watchedVideos : [];
       const totalList = Array.from(new Set(oldList.concat(newList)));
-      user.watchedVideos = totalList;
-      console.log(totalList);
-      console.log(user);
-      // user.id = new ObjectId(user.id);
-      user.save(function (error) {
-        if (error)
-          return response.negotiate(error);
-
+      User.native((err, collection) =>{
+        collection.update({_id: new ObjectId(userId)}, {$set:{watchedVideos:totalList}});
         response.json(user.watchedVideos);
       });
-      // response.json(user.watchedVideos);
     });
   },
-  // addFavoriteVideos: function (request, response) {
-  //   // TODO: validate video id - get a list of video ids using a route and call using a sync method
-  //   // object to keep info sent in request
-  //   var userId = request.body.userId;
-  //   var favoriteVideos = request.body.videos;
-  // }
+
+  addFavoriteVideos: function (request, response) {
+    var userId = request.params.user_id;
+    if (request.body.constructor !== Array)
+      return response.badRequest("Request Body should be an array object");
+
+    User.findOne(userId).exec(function (error, user) {
+      if (error) return error;
+      const newList = request.body;
+      const oldList = user.watchedVideos ? user.watchedVideos : [];
+      const totalList = Array.from(new Set(oldList.concat(newList)));
+      User.native((err, collection) =>{
+        collection.update({_id: new ObjectId(userId)}, {$set:{favoriteVideos:totalList}});
+        response.json(totalList);
+      });
+    });
+  }
 
 
 };

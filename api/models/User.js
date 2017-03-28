@@ -6,6 +6,7 @@
  */
 
 module.exports = {
+  schema: true,
   attributes: {
     //eg: BIB001
     // TODO: check how to autogenerate - can we auto increment with 'BIB'
@@ -70,12 +71,10 @@ module.exports = {
     // format - { video_id : time, v2 : t2, ..}
     watchedVideos: {
       collection: 'video',
-      via:'watchedUsers'
     },
 
     favoriteVideos:{
       collection:'video',
-      via:'favoriteUsers'
     },
 
     company:{

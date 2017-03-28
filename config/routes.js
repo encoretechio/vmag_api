@@ -66,7 +66,7 @@ module.exports.routes = {
   'POST /user/:user_id/update_video': 'UserController.updateVideo',
   'POST /user/:user_id/change_password': 'UserController.changePassword',
   'POST /user/:user_id/add_watched_videos':'UserController.addWatchedVideos',
-  // 'POST /user/:user_id/add_favorite_videos':'UserController.addFavoriteVideos',
+  'POST /user/:user_id/add_favorite_videos':'UserController.addFavoriteVideos',
 
   // role endpoints
   'GET /role': 'RoleController.getRoles',
