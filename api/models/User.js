@@ -6,7 +6,6 @@
  */
 
 module.exports = {
-  schema: true,
   attributes: {
     //eg: BIB001
     // TODO: check how to autogenerate - can we auto increment with 'BIB'
