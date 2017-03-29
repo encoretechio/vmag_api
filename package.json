@@ -26,7 +26,7 @@
     "rc": "1.0.1",
     "sails": "~0.12.4",
     "sails-disk": "~0.10.9",
-    "sails-hook-jwt-auth": "^1.0.3",
+    "sails-hook-jwt-auth": "1.0.3",
     "sails-mongo": "^0.12.2",
     "sails-mysql": "^0.11.5",
     "swig": "^1.4.2"
