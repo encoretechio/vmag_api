@@ -50,6 +50,14 @@ module.exports = {
     comments: {
       collection: 'comment',
       via: 'video'
+    },
+
+    watchedUsers: {
+      collection: 'user',
+    },
+
+    favoriteUsers: {
+      collection: 'user',
     }
   }
 };

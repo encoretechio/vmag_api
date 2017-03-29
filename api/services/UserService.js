@@ -14,7 +14,7 @@ var getUserSync = function(user_id, profile_id) {
             // check which object is user and profile
             if(users[0].id == user_id){
               user = users[0];
-              profile = users[1];   
+              profile = users[1];
             }else{
               user = users[1];
               profile = users[0];
@@ -84,13 +84,8 @@ var UserService = {
         return;
       }else if ( users.length > 0){
         var user = users[0];
-        tempUser.name = user.firstName + ' ' + user.lastName;
-        tempUser.id = user.id;
-        tempUser.email = user.email;
-        tempUser.contactNumber = user.contactNumber;
-        tempUser.designation = user.designation;
       }
-      callback(null, tempUser);
+      callback(null, user);
     });
   },
 

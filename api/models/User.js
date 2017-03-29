@@ -11,7 +11,6 @@ module.exports = {
     // TODO: check how to autogenerate - can we auto increment with 'BIB'
     id: {
       type: 'objectid',
-      autoIncrement: true,
       primaryKey: true,
     },
 
@@ -70,7 +69,11 @@ module.exports = {
     // json object to keep watched videos of a user
     // format - { video_id : time, v2 : t2, ..}
     watchedVideos: {
-      type: 'json'
+      collection: 'video',
+    },
+
+    favoriteVideos:{
+      collection:'video',
     },
 
     company:{
