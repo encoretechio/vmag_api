@@ -52,13 +52,13 @@ module.exports = {
       via: 'video'
     },
 
-    watchedUsers: {
-      collection: 'user',
-    },
-
-    favoriteUsers: {
-      collection: 'user',
-    }
+    // watchedUsers: {
+    //   collection: 'user',
+    // },
+    //
+    // favoriteUsers: {
+    //   collection: 'user',
+    // }
   }
 };
 

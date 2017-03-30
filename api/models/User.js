@@ -68,13 +68,13 @@ module.exports = {
 
     // json object to keep watched videos of a user
     // format - { video_id : time, v2 : t2, ..}
-    watchedVideos: {
-      collection: 'video',
-    },
+    // watchedVideos: {
+    //   collection: 'video',
+    // },
 
-    favoriteVideos:{
-      collection:'video',
-    },
+    // favoriteVideos:{
+    //   collection:'video',
+    // },
 
     company:{
       model:'company'
