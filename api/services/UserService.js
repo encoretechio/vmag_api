@@ -78,7 +78,7 @@ var UserService = {
   getSingleUser: function (options, callback){
     var tempUser = {};
 
-    User.find(options.user_id).exec(function(error, users){
+    User.find(options.user_id).populate('company').exec(function(error, users){
       if (error) {
         // handle error here- e.g. `res.serverError(err);`
         return;

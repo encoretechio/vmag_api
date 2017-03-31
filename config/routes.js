@@ -43,7 +43,7 @@ module.exports.routes = {
   ***************************************************************************/
 
   // security routes
-  'post /login' : 'AuthController.login',
+  'post /login' : 'AuthController.loginx',
   'post /signup' : 'AuthController.signup',
   'get /activate/:token' : 'AuthController.activate',
 
