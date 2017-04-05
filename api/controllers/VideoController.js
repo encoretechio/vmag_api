@@ -5,6 +5,8 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+const ObjectId = require('sails-mongo/node_modules/mongodb').ObjectID;
+
 module.exports = {
   // createVideo - create a video
  //  can create with associations - add playlists while creating
@@ -50,4 +52,25 @@ module.exports = {
   		// 	response.json(userArray);
   		// });
   	},
+
+  addLike: function (request, response) {
+    //var userId = request.token;
+    var userId = 3;
+    var videoId = request.params.video_id;
+    Video.findOne(videoId).exec(function (error, video) {
+      if (error) return error;
+
+      if (video.likes.constructor !== Array)
+        video.likes = [];
+
+      const oldList = video.likes ? video.likes : [];
+
+      const totalList = Array.from(new Set(oldList.concat([userId])));
+      //const totalList = Array.from(new Set(oldList.concat(newList)));
+      User.native((err, collection) =>{
+        collection.update({_id: new ObjectId(videoId)}, {$set:{likes:totalList}});
+      response.json(totalList);
+    });
+    });
+  }
 };

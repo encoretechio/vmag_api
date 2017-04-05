@@ -92,6 +92,9 @@ module.exports.routes = {
   'POST /comment' : 'CommentController.createComment',
   'GET /comment/video/:videoID' : 'CommentController.getCommentsByVideoID',
   'GET /comment/user/:userID' : 'CommentController.getCommentsByUserID',
+
+  // like routes
+  'POST /video/:video_id/like': 'VideoController.addLike',
 };
 
 // Example defaults
