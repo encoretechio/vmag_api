@@ -54,8 +54,8 @@ module.exports = {
   	},
 
   addLike: function (request, response) {
-    //var userId = request.token;
-    var userId = 3;
+    var userId = request.token;
+    //var userId = 3;
     var videoId = request.params.video_id;
     Video.findOne(videoId).exec(function (error, video) {
       if (error) return error;
