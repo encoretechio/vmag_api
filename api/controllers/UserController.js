@@ -225,7 +225,7 @@ module.exports = {
     User.findOne(userId).exec(function (error, user) {
       if (error) return error;
       const newList = request.body;
-      const oldList = user.watchedVideos ? user.watchedVideos : [];
+      const oldList = user.favoriteVideos ? user.favoriteVideos : [];
       const totalList = Array.from(new Set(oldList.concat(newList)));
       User.native((err, collection) =>{
         collection.update({_id: new ObjectId(userId)}, {$set:{favoriteVideos:totalList}});
