@@ -95,6 +95,7 @@ module.exports.routes = {
 
   // like routes
   'POST /video/:video_id/like': 'VideoController.addLike',
+  'POST /video/:video_id/unlike': 'VideoController.removeLike'
 };
 
 // Example defaults

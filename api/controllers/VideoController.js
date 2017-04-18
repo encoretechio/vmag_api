@@ -23,7 +23,7 @@ module.exports = {
   },
 
 	//getUsersWhoCanAnswerComments - Send users list who can answer comments with contact details
-  	getUsersWhoCanAnswerComments: function(request, response){
+  getUsersWhoCanAnswerComments: function(request, response){
   		// var video = sails.middleware.blueprints.findOne(request, response);
   		// var video = {};
   		// Video.find(request.params.id).exec(function(error, videos){
@@ -66,11 +66,47 @@ module.exports = {
       const oldList = video.likes ? video.likes : [];
 
       const totalList = Array.from(new Set(oldList.concat([userId])));
-      //const totalList = Array.from(new Set(oldList.concat(newList)));
-      User.native((err, collection) =>{
+
+      Video.native((err, collection) =>{
         collection.update({_id: new ObjectId(videoId)}, {$set:{likes:totalList}});
-      response.json(totalList);
+        response.json(totalList);
+      });
+    });
+  },
+
+  removeLike: function (request, response) {
+    var userId = request.token;
+    //var userId = 3;
+    var videoId = request.params.video_id;
+    Video.findOne(videoId).exec(function (error, video) {
+      if (error) return error;
+
+      /*if (video.likes.constructor !== Array)
+        video.likes = [];*/
+
+      const oldList = video.likes ? video.likes : [];
+
+      console.log(oldList);
+
+      var index = oldList.indexOf(userId);
+
+      if (index > -1) {
+        oldList.splice(index, 1);
+      }
+
+      //const totalList = Array.from(new Set(oldList.concat([userId])));
+
+      Video.native((err, collection) =>{
+        collection.update({_id: new ObjectId(videoId)}, {$set:{likes:oldList}});
+      response.json(oldList);
     });
     });
   }
+
+
+
+
+
+
+
 };
