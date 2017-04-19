@@ -219,18 +219,44 @@ module.exports = {
 
   addFavoriteVideos: function (request, response) {
     var userId = request.params.user_id;
+
     if (request.body.constructor !== Array)
       return response.badRequest("Request Body should be an array object");
 
     User.findOne(userId).exec(function (error, user) {
       if (error) return error;
       const newList = request.body;
+
       const oldList = user.favoriteVideos ? user.favoriteVideos : [];
       const totalList = Array.from(new Set(oldList.concat(newList)));
       User.native((err, collection) =>{
         collection.update({_id: new ObjectId(userId)}, {$set:{favoriteVideos:totalList}});
         response.json(totalList);
       });
+    });
+  },
+
+  removeFavoriteVideos: function (request, response) {
+    var userId = request.params.user_id;
+    if (request.body.constructor !== Array)
+      return response.badRequest("Request Body should be an array object");
+
+    User.findOne(userId).exec(function (error, user) {
+      if (error) return error;
+      const newList = request.body;
+
+      const unlikeVideoId = newList[0];
+      const oldList = user.favoriteVideos ? user.favoriteVideos : [];
+      var index = oldList.indexOf(unlikeVideoId);
+
+      if (index != null) {
+        oldList.splice(index, 1);
+      }
+
+      User.native((err, collection) =>{
+        collection.update({_id: new ObjectId(userId)}, {$set:{favoriteVideos:oldList}});
+      response.json(oldList);
+    });
     });
   }
 
