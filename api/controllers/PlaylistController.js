@@ -4,6 +4,27 @@
  * @description :: Server-side logic for managing playlists
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
+const ObjectId = require('sails-mongo/node_modules/mongodb').ObjectID;
+
+function isLiked (playlist,userId){
+	for (video of playlist.videos){
+		var isLiked = false;
+		for(i = 0; i < video.likes.length; i++) {
+			if (video.likes[i]==userId){
+				console.log(video.likes[i]);
+				isLiked = true;
+				video.isLiked = true;
+				break;
+			}
+
+		}
+		if (isLiked == false){
+			console.log("no");
+			video.isLiked = false;
+		}
+	}
+}
+
 
 module.exports = {
    // createPlaylist - create a playlist
@@ -34,14 +55,21 @@ module.exports = {
 
    // get Playlist details
    getPlaylist: function(request, response){
-     Playlist.findOne(request.params.playlist_id).populate('videos').exec(function(error, playlist) {
-       if(error){
-         // handle error
-         return response.negotiate(error);
-       }
 
-       return response.json(playlist);
-     });
+	   var userId = request.token;
+
+     Playlist.findOne(request.params.playlist_id).populate('videos').exec(function(error, playlist) {
+
+     	isLiked(playlist,userId);
+		if(error){
+			// handle error
+			return response.negotiate(error);
+		}
+
+		return response.json(playlist);
+		}
+		);
+
    },
 
 	  // getUsersWhoCanAnswerComments - Send users list who can answer comments with contact details
@@ -65,9 +93,9 @@ module.exports = {
   				return response.negotiate(error);
   			}
   			console.log("Body:")
-        console.log(request.params.playlist_id)
-        console.log(playlist)
-        console.log(request.body)
+			console.log(request.params.playlist_id)
+			console.log(playlist)
+			console.log(request.body)
   			// Queue up a records to be inserted into the join table
   			playlist.videos.add(request.body.videos);
 
@@ -105,6 +133,8 @@ module.exports = {
   			});
 		  });
   	},
+
+
 
   	// TODO: add actions to add/remove users
 };
