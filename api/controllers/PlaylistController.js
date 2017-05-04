@@ -43,11 +43,16 @@ module.exports = {
 
    //getPlaylists - Send all playlists
    getPlaylists: function(request, response){
+	   var userId = request.token;
      Playlist.find().populate('videos').exec(function(error, playlists){
        if (error) {
          // handle error here- e.g. `res.serverError(err);`
          return;
        }
+
+       for (playlist of playlists){
+		   isLiked(playlist,userId);
+	   }
 
        response.json(playlists);
      });
