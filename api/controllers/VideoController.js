@@ -67,10 +67,13 @@ module.exports = {
 
       const totalList = Array.from(new Set(oldList.concat([userId])));
 
+      video.isLiked = true;
+
       Video.native((err, collection) =>{
         collection.update({_id: new ObjectId(videoId)}, {$set:{likes:totalList}});
-        response.json(totalList);
+        response.json(video);
       });
+
     });
   },
 
@@ -88,10 +91,11 @@ module.exports = {
       if (index > -1) {
         oldList.splice(index, 1);
       }
+      video.isLiked = false;
 
       Video.native((err, collection) =>{
         collection.update({_id: new ObjectId(videoId)}, {$set:{likes:oldList}});
-      response.json(oldList);
+      response.json(video);
     });
     });
   }
