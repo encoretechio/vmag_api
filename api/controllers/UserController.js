@@ -226,13 +226,21 @@ module.exports = {
     User.findOne(userId).exec(function (error, user) {
       if (error) return error;
       const newList = request.body;
-
+        console.log(user.videos);
       const oldList = user.favoriteVideos ? user.favoriteVideos : [];
       const totalList = Array.from(new Set(oldList.concat(newList)));
+
       User.native((err, collection) =>{
         collection.update({_id: new ObjectId(userId)}, {$set:{favoriteVideos:totalList}});
-        response.json(totalList);
+
       });
+
+      Video.findOne(newList[0]).exec(function (error, video){
+          if (error) return error;
+          video.isFavourite = true;
+          response.json(video);
+      });
+
     });
   },
 
@@ -255,8 +263,15 @@ module.exports = {
 
       User.native((err, collection) =>{
         collection.update({_id: new ObjectId(userId)}, {$set:{favoriteVideos:oldList}});
-      response.json(oldList);
-    });
+        //response.json(oldList);
+      });
+
+      Video.findOne(newList[0]).exec(function (error, video){
+          if (error) return error;
+          video.isFavourite = false;
+          response.json(video);
+      });
+
     });
   }
 

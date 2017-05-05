@@ -11,7 +11,6 @@ function isLiked (playlist,userId){
 		var isLiked = false;
 		for(i = 0; i < video.likes.length; i++) {
 			if (video.likes[i]==userId){
-				console.log(video.likes[i]);
 				isLiked = true;
 				video.isLiked = true;
 				break;
@@ -19,7 +18,6 @@ function isLiked (playlist,userId){
 
 		}
 		if (isLiked == false){
-			console.log("no");
 			video.isLiked = false;
 		}
 	}
