@@ -5,6 +5,22 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+function isLiked (playlist,userId){
+    for (video of playlist.videos){
+        var isLiked = false;
+        for(i = 0; i < video.likes.length; i++) {
+            if (video.likes[i]==userId){
+                isLiked = true;
+                video.isLiked = true;
+                break;
+            }
+        }
+        if (isLiked == false){
+            video.isLiked = false;
+        }
+    }
+}
+
 module.exports = {
   // createVideo - create a video
   //  can create with associations - add playlists while creating
@@ -20,6 +36,7 @@ module.exports = {
     });
   },
   getFinalIssue: function (request, response) {
+      var userId = request.token;
     Issue.find()
       .populate('playlists')
       .populate('cover_video')
@@ -29,6 +46,8 @@ module.exports = {
         const playlists_new = [];
         const promises = finalIssue.playlists.map((playlist) =>
           Playlist.findOne(playlist.id).populate("videos").then((playlist) => {
+
+            isLiked(playlist,userId);
             playlists_new.push(playlist)
           }));
         return Promise.all(promises).then(() => {

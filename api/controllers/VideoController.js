@@ -67,13 +67,19 @@ module.exports = {
 
       const totalList = Array.from(new Set(oldList.concat([userId])));
 
+      console.log("video"+ video);
+      console.log("total List: "+ totalList);
+
       video.isLiked = true;
 
       Video.native((err, collection) =>{
         collection.update({_id: new ObjectId(videoId)}, {$set:{likes:totalList}});
-        response.json(video);
       });
 
+      Video.findOne(videoId).exec(function (error, video) {
+          if (error) return error;
+          response.json(video);
+      })
     });
   },
 

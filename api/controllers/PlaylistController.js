@@ -15,7 +15,6 @@ function isLiked (playlist,userId){
 				video.isLiked = true;
 				break;
 			}
-
 		}
 		if (isLiked == false){
 			video.isLiked = false;
@@ -41,8 +40,9 @@ module.exports = {
 
    //getPlaylists - Send all playlists
    getPlaylists: function(request, response){
-	   var userId = request.token;
-     Playlist.find().populate('videos').exec(function(error, playlists){
+	   	var userId = request.token;
+
+     	Playlist.find().populate('videos').exec(function(error, playlists){
        if (error) {
          // handle error here- e.g. `res.serverError(err);`
          return;
@@ -59,9 +59,16 @@ module.exports = {
    // get Playlist details
    getPlaylist: function(request, response){
 
-	   var userId = request.token;
+	   	var userId = request.token;
+	   	var id;
 
-     Playlist.findOne(request.params.playlist_id).populate('videos').exec(function(error, playlist) {
+       User.findOne(userId).exec(function (error, user) {
+       		console.log(user);
+           if (error) return error;
+           //id = user.id;
+       });
+
+     	Playlist.findOne(request.params.playlist_id).populate('videos').exec(function(error, playlist) {
 
      	isLiked(playlist,userId);
 		if(error){

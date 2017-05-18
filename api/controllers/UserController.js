@@ -64,9 +64,11 @@ module.exports = {
   },
 
   getCurrentUser: function (request, response) {
-    var userId = request.token
+    var userId = request.token;
+      console.log("tokenID  "+ userId);
     User.findOne(userId).exec(function (error, user) {
       if (error) return error;
+        console.log("user found");
       response.json(user);
     });
   },
