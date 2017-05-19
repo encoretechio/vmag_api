@@ -76,9 +76,14 @@ module.exports = {
         collection.update({_id: new ObjectId(videoId)}, {$set:{likes:totalList}});
       });
 
+        console.log("after native: "+video.isLiked);
+
       Video.findOne(videoId).exec(function (error, video) {
           if (error) return error;
+          video.isLiked = true;
+          console.log("inside find one: "+video.isLiked);
           response.json(video);
+
       })
     });
   },
