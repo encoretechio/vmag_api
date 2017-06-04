@@ -50,7 +50,7 @@ module.exports = {
 
   },
 
-  signup: function (req, res) {
+  signupx: function (req, res) {
     // Validate request paramaters
     if (!req.body.email || !req.body.password || !req.body.confirmPassword) {
       return res.json(400, {
@@ -72,12 +72,12 @@ module.exports = {
     }
 
     // var newUser = {
-    //   email: req.body.email,
-    //   password: req.body.password,
-    //   username: req.body.username,
-    //   firstName: req.body.firstName,
-    //   lastName: req.body.lastName
-    // };
+      //   email: req.body.email,
+      //   password: req.body.password,
+      //   username: req.body.username,
+      //   firstName: req.body.firstName,
+      //   lastName: req.body.lastName
+      // };
 
     var newUser = req.body;
     sails.log(newUser);
