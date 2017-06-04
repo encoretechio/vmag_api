@@ -222,11 +222,13 @@ module.exports = {
   addFavoriteVideos: function (request, response) {
     var userId = request.params.user_id;
     var videoId;
+    var tokenId = request.token;
 
     if (request.body.constructor !== Array)
       return response.badRequest("Request Body should be an array object");
 
     User.findOne(userId).exec(function (error, user) {
+
       if (error) return error;
       const newList = request.body;
       videoId =  newList[0];
@@ -243,11 +245,11 @@ module.exports = {
           if (error) return error;
 
 
-          const oldVidList = video.favorites ? video.favorites : [];
-          const totalVidList = Array.from(new Set(oldVidList.concat(userId)));
+          const oldVidList = video.favourites ? video.favourites : [];
+          const totalVidList = Array.from(new Set(oldVidList.concat(tokenId)));
 
           Video.native((err, collection) =>{
-              collection.update({_id: new ObjectId(videoId)}, {$set:{favorites:totalVidList}});
+              collection.update({_id: new ObjectId(videoId)}, {$set:{favourites:totalVidList}});
 
           });
 
@@ -267,6 +269,7 @@ module.exports = {
   removeFavoriteVideos: function (request, response) {
     var userId = request.params.user_id;
     const newList = request.body;
+    var tokenId = request.token;
     const unlikeVideoId = newList[0];
 
     if (request.body.constructor !== Array)
@@ -291,15 +294,15 @@ module.exports = {
           if (error) return error;
           //video.isFavourite = false;
 
-          const oldVidList = video.favorites ? video.favorites : [];
-          var index = oldList.indexOf(userId);
+          const oldVidList = video.favourites ? video.favourites : [];
+          var index = oldList.indexOf(tokenId);
 
           if (index != null) {
               oldVidList.splice(index, 1);
           }
 
           Video.native((err, collection) =>{
-              collection.update({_id: new ObjectId(unlikeVideoId)}, {$set:{favorites:oldVidList}});
+              collection.update({_id: new ObjectId(unlikeVideoId)}, {$set:{favourites:oldVidList}});
               //response.json(oldList);
           });
 

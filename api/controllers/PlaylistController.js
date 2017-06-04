@@ -22,6 +22,22 @@ function isLiked (playlist,userId){
 	}
 }
 
+function isFavourite (playlist,userId){
+    for (video of playlist.videos){
+        var isFavourite = false;
+        for(i = 0; i < video.favourites.length; i++) {
+            if (video.likes[i]==userId){
+                isLiked = true;
+                video.isLiked = true;
+                break;
+            }
+        }
+        if (isLiked == false){
+            video.isLiked = false;
+        }
+    }
+}
+
 
 module.exports = {
    // createPlaylist - create a playlist
