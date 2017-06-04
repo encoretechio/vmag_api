@@ -9,13 +9,21 @@ const ObjectId = require('sails-mongo/node_modules/mongodb').ObjectID;
 function isLiked (playlist,userId){
 	for (video of playlist.videos){
 		var isLiked = false;
-		for(i = 0; i < video.likes.length; i++) {
-			if (video.likes[i]==userId){
-				isLiked = true;
-				video.isLiked = true;
-				break;
-			}
+
+        if (video.likes == undefined){
+            isLiked = false;
+        }
+
+        else{
+            for(i = 0; i < video.likes.length; i++) {
+                if (video.likes[i]==userId){
+                    isLiked = true;
+                    video.isLiked = true;
+                    break;
+                }
+            }
 		}
+
 		if (isLiked == false){
 			video.isLiked = false;
 		}
@@ -25,16 +33,23 @@ function isLiked (playlist,userId){
 function isFavourite (playlist,userId){
     for (video of playlist.videos){
         var isFavourite = false;
-        for(i = 0; i < video.favourites.length; i++) {
-            if (video.likes[i]==userId){
-                isLiked = true;
-                video.isLiked = true;
-                break;
+        console.log("fav array: "+ video.favourites);
+        if (video.favourites == undefined){
+            isFavourite = false;
+		}
+		else{
+            for(i = 0; i < video.favourites.length; i++) {
+                if (video.favourites[i]==userId){
+                    isFavourite = true;
+                    video.isFavourite = true;
+                    break;
+                }
             }
+		}
+        if (isFavourite == false){
+            video.isFavourite = false;
         }
-        if (isLiked == false){
-            video.isLiked = false;
-        }
+
     }
 }
 
@@ -66,6 +81,7 @@ module.exports = {
 
        for (playlist of playlists){
 		   isLiked(playlist,userId);
+           isFavourite(playlist,userId);
 	   }
 
        response.json(playlists);
@@ -87,6 +103,8 @@ module.exports = {
      	Playlist.findOne(request.params.playlist_id).populate('videos').exec(function(error, playlist) {
 
      	isLiked(playlist,userId);
+     	isFavourite(playlist,userId);
+
 		if(error){
 			// handle error
 			return response.negotiate(error);
