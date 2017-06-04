@@ -71,15 +71,19 @@ module.exports = {
       });
     }
 
-    // var newUser = {
-      //   email: req.body.email,
-      //   password: req.body.password,
-      //   username: req.body.username,
-      //   firstName: req.body.firstName,
-      //   lastName: req.body.lastName
-      // };
+    var newUser = {
+         email: req.body.email,
+         password: req.body.password,
+         username: req.body.username,
+         firstName: req.body.firstName,
+         lastName: req.body.lastName,
+        thumbnail: req.body.thumbnail,
+        employeeID: req.body.employeeID,
+        watchedVideos: [],
+        favoriteVideos:[]
+       };
 
-    var newUser = req.body;
+    //var newUser = req.body;
     sails.log(newUser);
 
     if (sails.config.jwt.requireAccountActivation) {
