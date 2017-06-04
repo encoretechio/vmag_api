@@ -221,6 +221,7 @@ module.exports = {
 
   addFavoriteVideos: function (request, response) {
     var userId = request.params.user_id;
+    var videoId;
 
     if (request.body.constructor !== Array)
       return response.badRequest("Request Body should be an array object");
@@ -228,8 +229,9 @@ module.exports = {
     User.findOne(userId).exec(function (error, user) {
       if (error) return error;
       const newList = request.body;
-        console.log(user.videos);
-      const oldList = user.favoriteVideos ? user.favoriteVideos : [];
+      videoId =  newList[0];
+        console.log("videoID : " + videoId);
+        const oldList = user.favoriteVideos ? user.favoriteVideos : [];
       const totalList = Array.from(new Set(oldList.concat(newList)));
 
       User.native((err, collection) =>{
@@ -237,10 +239,26 @@ module.exports = {
 
       });
 
-      Video.findOne(newList[0]).exec(function (error, video){
+      Video.findOne(videoId).exec(function (error, video){
           if (error) return error;
-          video.isFavourite = true;
-          response.json(video);
+
+
+          const oldVidList = video.favorites ? video.favorites : [];
+          const totalVidList = Array.from(new Set(oldVidList.concat(userId)));
+
+          Video.native((err, collection) =>{
+              collection.update({_id: new ObjectId(videoId)}, {$set:{favorites:totalVidList}});
+
+          });
+
+          Video.findOne(videoId).exec(function (error, video) {
+              if (error) return error;
+              video.isFavourite = true;
+              response.json(video);
+
+          })
+
+          //response.json(video);
       });
 
     });
@@ -248,14 +266,15 @@ module.exports = {
 
   removeFavoriteVideos: function (request, response) {
     var userId = request.params.user_id;
+    const newList = request.body;
+    const unlikeVideoId = newList[0];
+
     if (request.body.constructor !== Array)
       return response.badRequest("Request Body should be an array object");
 
     User.findOne(userId).exec(function (error, user) {
       if (error) return error;
-      const newList = request.body;
 
-      const unlikeVideoId = newList[0];
       const oldList = user.favoriteVideos ? user.favoriteVideos : [];
       var index = oldList.indexOf(unlikeVideoId);
 
@@ -270,8 +289,28 @@ module.exports = {
 
       Video.findOne(newList[0]).exec(function (error, video){
           if (error) return error;
-          video.isFavourite = false;
-          response.json(video);
+          //video.isFavourite = false;
+
+          const oldVidList = video.favorites ? video.favorites : [];
+          var index = oldList.indexOf(userId);
+
+          if (index != null) {
+              oldVidList.splice(index, 1);
+          }
+
+          Video.native((err, collection) =>{
+              collection.update({_id: new ObjectId(unlikeVideoId)}, {$set:{favorites:oldVidList}});
+              //response.json(oldList);
+          });
+
+
+          Video.findOne(unlikeVideoId).exec(function (error, video) {
+              if (error) return error;
+              video.isFavourite = false;
+              response.json(video);
+
+          })
+
       });
 
     });
