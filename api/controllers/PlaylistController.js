@@ -28,6 +28,7 @@ function isLiked (playlist,userId){
 			video.isLiked = false;
 		}
 	}
+    //isFavourite (playlist,userId)
 }
 
 function isFavourite (playlist,userId){
@@ -51,6 +52,7 @@ function isFavourite (playlist,userId){
         }
 
     }
+    //isLiked (playlist,userId)
 }
 
 

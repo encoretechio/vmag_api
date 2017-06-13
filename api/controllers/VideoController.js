@@ -4,6 +4,54 @@
  * @description :: Server-side logic for managing videos
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
+function isLiked (video,userId){
+    //for (video of playlist.videos){
+        var isLiked = false;
+
+        if (video.likes == undefined){
+            isLiked = false;
+        }
+
+        else{
+            for(i = 0; i < video.likes.length; i++) {
+                if (video.likes[i]==userId){
+                    isLiked = true;
+                    video.isLiked = true;
+                    break;
+                }
+            }
+        }
+
+        if (isLiked == false){
+            video.isLiked = false;
+        }
+   // }
+    //isFavourite (playlist,userId)
+}
+
+function isFavourite (video,userId){
+    //for (video of playlist.videos){
+        var isFavourite = false;
+        console.log("userID: "+ userId);
+        if (video.favourites == undefined){
+            isFavourite = false;
+        }
+        else{
+            for(i = 0; i < video.favourites.length; i++) {
+                if (video.favourites[i]==userId){
+                    isFavourite = true;
+                    video.isFavourite = true;
+                    break;
+                }
+            }
+        }
+        if (isFavourite == false){
+            video.isFavourite = false;
+        }
+
+    //}
+    //isLiked (playlist,userId)
+}
 
 const ObjectId = require('sails-mongo/node_modules/mongodb').ObjectID;
 
@@ -76,12 +124,10 @@ module.exports = {
         collection.update({_id: new ObjectId(videoId)}, {$set:{likes:totalList}});
       });
 
-        console.log("after native: "+video.isLiked);
-
       Video.findOne(videoId).exec(function (error, video) {
           if (error) return error;
           video.isLiked = true;
-          console.log("inside find one: "+video.isLiked);
+          isFavourite(video,userId);
           response.json(video);
 
       })
@@ -102,7 +148,9 @@ module.exports = {
       if (index > -1) {
         oldList.splice(index, 1);
       }
+
       video.isLiked = false;
+      isFavourite(video,userId);
 
       Video.native((err, collection) =>{
         collection.update({_id: new ObjectId(videoId)}, {$set:{likes:oldList}});

@@ -9,6 +9,55 @@ var helper = require('../../lib/helper.js');
 const ObjectId = require('sails-mongo/node_modules/mongodb').ObjectID;
 // const ERRORS = require('../responses/custom_errors')
 
+function isLiked (video,userId){
+    //for (video of playlist.videos){
+    var isLiked = false;
+
+    if (video.likes == undefined){
+        isLiked = false;
+    }
+
+    else{
+        for(i = 0; i < video.likes.length; i++) {
+            if (video.likes[i]==userId){
+                isLiked = true;
+                video.isLiked = true;
+                break;
+            }
+        }
+    }
+
+    if (isLiked == false){
+        video.isLiked = false;
+    }
+    // }
+    //isFavourite (playlist,userId)
+}
+
+function isFavourite (video,userId){
+    //for (video of playlist.videos){
+    var isFavourite = false;
+    console.log("fav array: "+ video.favourites);
+    if (video.favourites == undefined){
+        isFavourite = false;
+    }
+    else{
+        for(i = 0; i < video.favourites.length; i++) {
+            if (video.favourites[i]==userId){
+                isFavourite = true;
+                video.isFavourite = true;
+                break;
+            }
+        }
+    }
+    if (isFavourite == false){
+        video.isFavourite = false;
+    }
+
+    //}
+    //isLiked (playlist,userId)
+}
+
 module.exports = {
   // createUser - create a user
   createUser: function (request, response) {
@@ -256,6 +305,7 @@ module.exports = {
           Video.findOne(videoId).exec(function (error, video) {
               if (error) return error;
               video.isFavourite = true;
+              isLiked (video,userId);
               response.json(video);
 
           })
@@ -310,6 +360,7 @@ module.exports = {
           Video.findOne(unlikeVideoId).exec(function (error, video) {
               if (error) return error;
               video.isFavourite = false;
+              isLiked (video,userId);
               response.json(video);
 
           })
